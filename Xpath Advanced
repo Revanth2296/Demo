@@ -1,1 +1,39 @@
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.Alert;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
+
+public class JsPromptTest {
+    public static void main(String[] args) {
+        WebDriver driver = new ChromeDriver();
+        driver.manage().window().maximize();
+        driver.get("https://the-internet.herokuapp.com/javascript_alerts");
+        try
+        {
+            WebElement promptbutton = driver.findElement(By.xpath("//button[text()='Click for JS Prompt']"));
+            promptbutton.click();
+            WebDriverWait wait  = new WebDriverWait(driver,Duration.ofSeconds(10));
+            Alert alert = wait.until(ExpectedConditions.alertIsPresent());
+            System.out.println("Alert text:" +alert.getText());
+            alert.sendKeys("HCL");
+            alert.accept();
+            String result = driver.findElement(By.id("result")).getText();
+            if(result.contains("HCL"))
+            {
+                System.out.println("Test Passed");
+            }
+            else
+            {
+                System.out.println("Test Failed ");
+            }
+        }
+            finally
+            {
+                driver.quit();
+            }
+    }
+}
 
